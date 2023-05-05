@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+</html>
+<script>
+  let time = new Date().getTime();
+  const posts = [
+    { title: "post one", body: "this is post one", timestamp: time },
+    { title: "post two", body: "this is post two", timestamp: time },
+  ];
+  function getPosts() {
+    setTimeout(() => {
+      let output = "";
+      posts.forEach((post) => {
+        // time = new Date().getTime();
+        output += `<li>${post.title}, posted time=${post.timestamp}</li>`;
+      });
+
+      // const ulElem = document.createElement("ul");
+      // ulElem.innerHTML = output;
+      // document.body.appendChild(ulElem);
+      document.body.innerHTML = output;
+    }, 1000);
+    console.log(posts);
+  }
+
+  function deletePost() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (posts.length !== null) {
+          posts.pop();
+        }
+        resolve();
+      }, 1000);
+    });
+  }
+  function updateLastUserActivityTime() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        time = new Date().getTime();
+        resolve(time);
+      }, 0);
+    });
+  }
+
+  function createPost(post) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        post.timestamp = new Date().getTime();
+        posts.push(post);
+        console.log(post);
+        resolve();
+      }, 2000);
+    });
+  }
+
+  updateLastUserActivityTime().then(getPosts);
+  createPost({ title: "post three", body: "this is post three" })
+    .then(updateLastUserActivityTime)
+    .then(getPosts);
+  createPost({ title: "post Fourth", body: "this is post Fourth" })
+    .then(updateLastUserActivityTime)
+    .then(getPosts)
+    .then(deletePost)
+    .then(getPosts)
+    .then(updateLastUserActivityTime)
+    .catch((err) => console.log(err));
+</script>
+
+<script>
+  // -------------------------Promise.all--------------- //
+
+  // getPosts(); // const
+  // updateLastUserActivityTime1 = updateLastUserActivityTime(); // const createPost1
+  // = createPost({ // title: "post three", // body: "this is post three", // }); //
+  // const deletePost1 = deletePost(); // Promise.all([updateLastUserActivityTime1,
+  // createPost1, deletePost1]) // .then(getPosts) // .catch((err) =>
+  // console.log(err));
+</script>
